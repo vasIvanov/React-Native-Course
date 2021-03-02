@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Button, Modal } from 'react-native';
 
 const GoalInput = (props) => {
   const [enteredGoal, setEnteredGoal] = useState('');
-
+  console.log('test');
   return (
     <Modal visible={props.visible} animationType='slide'>
       <View style={styles.inputContainer}>
