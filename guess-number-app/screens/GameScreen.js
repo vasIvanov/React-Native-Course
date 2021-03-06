@@ -12,6 +12,8 @@ import Colors from '../constants/colors';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import DefaultStyles from '../constants/default-styles';
+import MainButton from '../components/MainButton';
+import { Ionicons } from '@expo/vector-icons';
 
 const generateRandomBetween = (min, max, exlude) => {
   min = Math.ceil(min);
@@ -69,11 +71,12 @@ const GameScreen = (props) => {
       <Text style={DefaultStyles.bodyText}>Computer Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card style={styles.buttonContainer}>
-        <Button title='Lower' onPress={nextGuessHandler.bind(this, 'lower')} />
-        <Button
-          title='Greater'
-          onPress={nextGuessHandler.bind(this, 'greater')}
-        />
+        <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+          <Ionicons name='md-remove' size={24} color='white' />
+        </MainButton>
+        <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+          <Ionicons name='md-add' size={24} color='white' />
+        </MainButton>
       </Card>
     </View>
   );
@@ -89,8 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 20,
-    width: 300,
-    maxWidth: '80%',
+    width: 400,
+    maxWidth: '90%',
   },
 });
 

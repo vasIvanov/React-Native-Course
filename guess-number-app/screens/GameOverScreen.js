@@ -14,6 +14,7 @@ import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
+import MainButton from '../components/MainButton';
 
 const GameOverScreen = (props) => {
   return (
@@ -35,7 +36,7 @@ const GameOverScreen = (props) => {
         <Text style={styles.highlight}>{props.roundsNumber}</Text> Number was{' '}
         <Text style={styles.highlight}>{props.userNumber}</Text>
       </BodyText>
-      <Button title='New Game' onPress={props.onRestart} />
+      <MainButton onPress={props.onRestart}>New Game</MainButton>
     </View>
   );
 };
