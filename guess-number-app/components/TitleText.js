@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Button,
-  Keyboard,
-  Alert,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text } from 'react-native';
 
 const TitleText = (props) => {
   return (
