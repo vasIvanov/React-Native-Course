@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import Colors from '../constants/colors';
 import BodyText from '../components/BodyText';
@@ -19,7 +20,6 @@ const GameOverScreen = (props) => {
   const [availableDeviceHeight, setAvailableDeviceHeight] = useState(
     Dimensions.get('window').height
   );
-
   useEffect(() => {
     const updateLayout = () => {
       setAvailableDeviceWidth(Dimensions.get('window').width);
@@ -38,12 +38,10 @@ const GameOverScreen = (props) => {
         <View
           style={{
             ...styles.imageContainer,
-            ...{
-              width: availableDeviceWidth * 0.7,
-              height: availableDeviceWidth * 0.7,
-              borderRadius: (availableDeviceWidth * 0.7) / 2,
-              marginVertical: availableDeviceHeight / 30,
-            },
+            width: availableDeviceWidth * 0.7,
+            height: availableDeviceWidth * 0.7,
+            borderRadius: (availableDeviceWidth * 0.7) / 2,
+            marginVertical: availableDeviceHeight / 30,
           }}
         >
           <Image
@@ -59,9 +57,7 @@ const GameOverScreen = (props) => {
         <BodyText
           style={{
             ...styles.resultText,
-            ...{
-              fontSize: availableDeviceHeight < 400 ? 16 : 20,
-            },
+            fontSize: availableDeviceHeight < 400 ? 16 : 20,
           }}
         >
           Number of rounds:{' '}

@@ -13,6 +13,7 @@ import DefaultStyles from '../constants/default-styles';
 import MainButton from '../components/MainButton';
 import { Ionicons } from '@expo/vector-icons';
 import BodyText from '../components/BodyText';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const generateRandomBetween = (min, max, exlude) => {
   min = Math.ceil(min);
@@ -35,6 +36,7 @@ const renderListItem = (listLength, itemData) => {
 };
 
 const GameScreen = (props) => {
+  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   const initGuess = generateRandomBetween(1, 100, props.userChoice);
   const [currentGuess, setCurrentGuess] = useState(initGuess);
   const [pastGuesses, setPastGuesses] = useState([initGuess.toString()]);
@@ -114,7 +116,7 @@ const GameScreen = (props) => {
           </MainButton>
         </View>
 
-        <View style={styles.listContainer}>
+        <View style={listContainerStyle}>
           {/* <ScrollView contentContainerStyle={styles.list}>
         {pastGuesses.map((g, i) => renderListItem(g, pastGuesses.length - i))}
       </ScrollView> */}
@@ -133,12 +135,7 @@ const GameScreen = (props) => {
     <View style={styles.screen}>
       <Text style={DefaultStyles.bodyText}>Computer Guess</Text>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <Card
-        style={[
-          ...styles.buttonContainer,
-          { marginTop: deviceHeight > 600 ? 20 : 5 },
-        ]}
-      >
+      <Card style={styles.buttonContainer}>
         <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
           <Ionicons name='md-remove' size={24} color='white' />
         </MainButton>
@@ -146,7 +143,7 @@ const GameScreen = (props) => {
           <Ionicons name='md-add' size={24} color='white' />
         </MainButton>
       </Card>
-      <View style={styles.listContainer}>
+      <View style={listContainerStyle}>
         {/* <ScrollView contentContainerStyle={styles.list}>
           {pastGuesses.map((g, i) => renderListItem(g, pastGuesses.length - i))}
         </ScrollView> */}
@@ -172,6 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: 400,
     maxWidth: '90%',
+    marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
   },
   listItem: {
     borderColor: 'black',
