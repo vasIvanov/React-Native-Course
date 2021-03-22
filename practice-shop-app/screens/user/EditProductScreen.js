@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,8 +7,9 @@ import {
   TextInput,
   TouchableNativeFeedback,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
+import { editProduct } from '../../store/actions/products';
 
 const EditProductScreen = (props) => {
   const productId = props.navigation.getParam('productId');
@@ -28,6 +29,27 @@ const EditProductScreen = (props) => {
   const [imageUrl, setImageUrl] = useState(
     selectedProduct ? selectedProduct.imageUrl : ''
   );
+
+  const dispatch = useDispatch();
+
+  const editProductHandler = useCallback(() => {
+    const newProduct = {
+      title,
+      imageUrl,
+      price,
+      description,
+      id: selectedProduct.id,
+    };
+
+    console.log('the new product', newProduct);
+
+    dispatch(editProduct(newProduct));
+  }, [dispatch, selectedProduct, title]);
+
+  useEffect(() => {
+    props.navigation.setParams({ editProductHandler: editProductHandler });
+  }, [editProductHandler]);
+
   return (
     <View>
       <Text>Title</Text>
@@ -72,6 +94,7 @@ const EditProductScreen = (props) => {
 };
 
 EditProductScreen.navigationOptions = (navData) => {
+  const editProduct = navData.navigation.getParam('editProductHandler');
   return {
     headerRight: () => (
       <TouchableNativeFeedback>
@@ -79,13 +102,9 @@ EditProductScreen.navigationOptions = (navData) => {
           name='ios-checkmark'
           size={35}
           onPress={() => {
+            editProduct();
             navData.navigation.navigate({
               routeName: 'UserProducts',
-              params: {
-                // mealId: itemData.item.id,
-                // mealTitle: itemData.item.title,
-                // isFav,
-              },
             });
           }}
         />

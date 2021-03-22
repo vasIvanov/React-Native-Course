@@ -9,6 +9,7 @@ import {
   Button,
   TouchableNativeFeedback,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 // import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -19,19 +20,20 @@ import ProductItem from '../../components/ProductItem';
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
-
+  console.log(products);
   return (
-    <FlatList
-      data={products}
-      renderItem={(itemData) => (
-        <ProductItem
-          itemData={itemData}
-          navigation={props.navigation}
-          overview={true}
-        />
-      )}
-      numColumns={2}
-    />
+    <View>
+      <FlatList
+        data={products}
+        renderItem={(itemData) => (
+          <ProductItem
+            itemData={itemData}
+            navigation={props.navigation}
+            overview={true}
+          />
+        )}
+      />
+    </View>
   );
 };
 

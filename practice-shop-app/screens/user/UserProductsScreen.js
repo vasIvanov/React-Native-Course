@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux';
 import ProductItem from '../../components/ProductItem';
 
 const UserProductsScreen = (props) => {
-  const products = useSelector((state) => state.products.availableProducts);
-
+  const products = useSelector((state) => state.products.userProducts);
   return (
     <View>
       <FlatList

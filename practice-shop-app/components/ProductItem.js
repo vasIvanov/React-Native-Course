@@ -36,8 +36,9 @@ const ProductItem = (props) => {
               }}
             />
           )}
-
           <Text style={styles.price}>${props.itemData.item.price}</Text>
+          <Text>{props.itemData.item.title}</Text>
+
           {props.overview ? <Button title='Cart' /> : <Button title='Delete' />}
         </View>
       </ImageBackground>

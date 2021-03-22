@@ -13,7 +13,6 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer);
 
 export default function App() {
-  console.log('test2');
   return (
     <Provider store={store}>
       <ShopNavigator />
