@@ -1,17 +1,25 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 // import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
+import {
+  createDrawerNavigator,
+  DrawerItems,
+  DrawerNavigatorItems,
+} from 'react-navigation-drawer';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import Colors from '../constants/Colors';
-import { Platform } from 'react-native';
+import { Platform, SafeAreaView, Button, View } from 'react-native';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 import { Ionicons } from '@expo/vector-icons';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
+import AuthScreen from '../screens/user/AuthScreen';
+import StartupScreen from '../screens/StartupScreen';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/actions/auth';
 
 const ProductsNavitagor = createStackNavigator(
   {
@@ -21,7 +29,6 @@ const ProductsNavitagor = createStackNavigator(
     ProductDetail: ProductDetailScreen,
     Cart: CartScreen,
   },
-
   {
     navigationOptions: {
       drawerIcon: (drawerConfig) => (
@@ -86,7 +93,45 @@ const ShopNavigator = createDrawerNavigator(
     contentOptions: {
       activeTintColor: Colors.primary,
     },
+    contentComponent: (props) => {
+      const dispatch = useDispatch();
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <SafeAreaView forceInset={{ top: 'aways', horizontal: 'never' }}>
+            <DrawerNavigatorItems {...props} />
+            <Button
+              title='Logout'
+              color={Colors.primary}
+              onPress={() => {
+                dispatch(logout());
+                //props.navigation.navigate('Auth');
+              }}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    },
   }
 );
 
-export default createAppContainer(ShopNavigator);
+const AuthNaviagor = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+      },
+      headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary,
+    },
+  }
+);
+
+const MainNavigator = createSwitchNavigator({
+  Startup: StartupScreen,
+  Auth: AuthNaviagor,
+  Shop: ShopNavigator,
+});
+
+export default createAppContainer(MainNavigator);
