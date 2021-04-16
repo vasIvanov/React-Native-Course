@@ -8,20 +8,26 @@ import {
   Button,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
+import ImageSelector from '../components/ImageSelector';
 import Colors from '../constants/Colors';
 import { addPlace } from '../store/places-actions';
 
 const NewPlaceScreen = (props) => {
   const [titleValue, setTitleValue] = useState('');
   const dispatch = useDispatch();
+  const [image, setImage] = useState('');
 
   const titleChangeHandler = (text) => {
     setTitleValue(text);
   };
 
   const savePlaceHandler = () => {
-    dispatch(addPlace(titleValue));
+    dispatch(addPlace(titleValue, image));
     props.navigation.goBack();
+  };
+
+  const imageTakenHandler = (imagePath) => {
+    setImage(imagePath);
   };
 
   return (
@@ -33,6 +39,7 @@ const NewPlaceScreen = (props) => {
           onChangeText={titleChangeHandler}
           value={titleValue}
         />
+        <ImageSelector onImageTaken={imageTakenHandler} />
         <Button
           title='Save Place'
           color={Colors.primary}
