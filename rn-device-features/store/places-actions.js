@@ -5,7 +5,7 @@ export const SET_PLACES = 'SET_PLACES';
 
 import { fetchPlaces, insertPlace } from '../helpers/db';
 
-export const addPlace = (title, image) => {
+export const addPlace = (title, image, location) => {
   return async (dispatch) => {
     const fileName = image.split('/').pop();
     const newPath = FileSystem.documentDirectory + fileName;
@@ -19,8 +19,8 @@ export const addPlace = (title, image) => {
         title,
         newPath,
         'Dummy address',
-        15.6,
-        12.3
+        location.lat,
+        location.lng
       );
       console.log(dbResult);
       dispatch({
@@ -29,6 +29,11 @@ export const addPlace = (title, image) => {
           id: dbResult.insertId,
           title,
           image: newPath,
+          address: 'Dummy address',
+          coords: {
+            lat: location.lat,
+            lng: location.lng,
+          },
         },
       });
     } catch (error) {

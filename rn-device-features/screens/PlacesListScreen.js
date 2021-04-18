@@ -28,7 +28,7 @@ const PlacesListScreen = (props) => {
             });
           }}
           image={itemData.item.image}
-          address={null}
+          address={itemData.item.address}
         />
       )}
     />

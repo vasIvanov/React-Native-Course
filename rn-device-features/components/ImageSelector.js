@@ -6,6 +6,7 @@ import * as Permissions from 'expo-permissions';
 
 const ImageSelector = (props) => {
   const [pickedImage, setPickedImage] = useState('');
+
   const verifyPermissions = async () => {
     const res = await Permissions.askAsync(
       Permissions.CAMERA,
@@ -21,6 +22,7 @@ const ImageSelector = (props) => {
     }
     return true;
   };
+
   const takeImageHandler = async () => {
     const hasPermission = await verifyPermissions();
 
