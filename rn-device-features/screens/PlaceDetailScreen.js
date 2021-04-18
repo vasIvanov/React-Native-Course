@@ -12,7 +12,10 @@ const PlaceDetailScreen = (props) => {
   );
 
   const showMapHandler = () => {
-    props.navigation.navigate('Map');
+    props.navigation.navigate('Map', {
+      readonly: true,
+      initialLocation: { lat: selectedPlace.lat, lng: selectedPlace.lng },
+    });
   };
 
   return (
