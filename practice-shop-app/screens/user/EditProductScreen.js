@@ -44,7 +44,8 @@ const formReducer = (state, action) => {
 const EditProductScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const prodId = props.navigation.getParam('productId');
+
+  const prodId = props.route.params ? props.route.params.productId : null;
   const editedProduct = useSelector((state) =>
     state.products.userProducts.find((prod) => prod.id === prodId)
   );
@@ -124,7 +125,16 @@ const EditProductScreen = (props) => {
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
-    props.navigation.setParams({ submit: submitHandler });
+    props.navigation.setOptions({
+      headerRight: () => (
+        <Ionicons
+          name='md-checkmark'
+          size={25}
+          color='white'
+          onPress={submitHandler}
+        />
+      ),
+    });
   }, [submitHandler]);
 
   const inputChangeHandler = useCallback(
@@ -222,22 +232,10 @@ const styles = StyleSheet.create({
   },
 });
 
-EditProductScreen.navigationOptions = (navData) => {
-  const submitFn = navData.navigation.getParam('submit');
+export const screenOptions = (navData) => {
+  const routeParam = navData.route.params ? navData.route.params : {};
   return {
-    headerTitle: navData.navigation.getParam('productId')
-      ? 'Edit Product'
-      : 'Add product',
-    headerRight: () => (
-      <Ionicons
-        name='md-checkmark'
-        size={25}
-        color='white'
-        onPress={() => {
-          submitFn();
-        }}
-      />
-    ),
+    headerTitle: routeParam.productId ? 'Edit Product' : 'Add product',
   };
 };
 

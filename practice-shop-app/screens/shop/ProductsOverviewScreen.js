@@ -35,13 +35,10 @@ const ProductsOverviewScreen = (props) => {
   }, [dispatch, setIsLoading, setError]);
 
   useEffect(() => {
-    const willFocusSub = props.navigation.addListener(
-      'willFocus',
-      loadProducts
-    );
+    const unsubscribe = props.navigation.addListener('focus', loadProducts);
 
     return () => {
-      willFocusSub.remove();
+      unsubscribe();
     };
   }, [loadProducts]);
 
@@ -54,7 +51,7 @@ const ProductsOverviewScreen = (props) => {
 
   const selectItemHandler = (id, title) => {
     props.navigation.navigate({
-      routeName: 'ProductDetail',
+      name: 'ProductDetail',
       params: {
         productId: id,
         productTitle: title,
@@ -128,9 +125,8 @@ const ProductsOverviewScreen = (props) => {
     />
   );
 };
-{
-}
-ProductsOverviewScreen.navigationOptions = (navData) => {
+
+export const screenOptions = (navData) => {
   return {
     headerTitle: 'All Products',
     headerLeft: () => (
@@ -176,4 +172,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
 export default ProductsOverviewScreen;
