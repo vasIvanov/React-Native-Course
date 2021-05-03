@@ -1,4 +1,6 @@
 import Product from '../../models/product';
+import * as Notifications from 'expo-notifications';
+import * as Persmissions from 'expo-permissions';
 
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -25,6 +27,7 @@ export const fetchProducts = () => {
           new Product(
             key,
             resData[key].ownerId,
+            resData[key].ownerPushToken,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -66,9 +69,20 @@ export const deleteProduct = (productId) => {
 
 export const createProduct = (title, description, imageUrl, price) => {
   return async (dispatch, getState) => {
+    let pushToken;
+    //any async code
+    let statusObj = await Persmissions.getAsync(Persmissions.NOTIFICATIONS);
+    if (statusObj.status !== 'granted') {
+      statusObj = await Persmissions.askAsync(Persmissions.NOTIFICATIONS);
+    }
+    if (statusObj.status !== 'granted') {
+      pushToken = null;
+    } else {
+      pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+    }
+
     const token = getState().auth.token;
     const userId = getState().auth.userId;
-    //any async code
     const response = await fetch(
       `https://rn-shop-app-a5821-default-rtdb.firebaseio.com/products.json?auth=${token}`,
       {
@@ -82,6 +96,7 @@ export const createProduct = (title, description, imageUrl, price) => {
           imageUrl,
           price,
           ownerId: userId,
+          ownerPushToken: pushToken,
         }),
       }
     );
@@ -97,6 +112,7 @@ export const createProduct = (title, description, imageUrl, price) => {
         imageUrl,
         price,
         ownerId: userId,
+        pushToken,
       },
     });
   };
